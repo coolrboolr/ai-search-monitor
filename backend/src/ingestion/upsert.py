@@ -1,7 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from datetime import datetime
+from dateutil import parser
 import hashlib
+
 
 from src.db.models import Job, Company
 from src.ingestion.sources.base import RawJob
@@ -26,6 +28,14 @@ def normalize_company_name(name: str) -> str:
         if n.endswith(s):
             n = n[: -len(s)]
     return n.strip()
+
+def parse_date_safe(date_str: str | None) -> datetime:
+    if not date_str:
+        return datetime.utcnow()
+    try:
+        return parser.parse(date_str)
+    except Exception:
+        return datetime.utcnow()
 
 async def upsert_raw_job(session: AsyncSession, raw_job: RawJob):
     # 1. Get or Create Company
@@ -65,7 +75,11 @@ async def upsert_raw_job(session: AsyncSession, raw_job: RawJob):
     from sqlalchemy.exc import IntegrityError
     
     if not company:
-        company = Company(name=company_name, classification=classification)
+        company = Company(
+            name=company_name, 
+            classification=classification,
+            industry=opp.industry if opp else None,
+        )
         # v0: simple heuristic so UI has a useful category
         if classification == "Competitor":
             company.category = "Agency / Consultancy"
@@ -82,6 +96,8 @@ async def upsert_raw_job(session: AsyncSession, raw_job: RawJob):
     else:
         if not company.classification:
             company.classification = classification
+        if opp and opp.industry and not company.industry:
+            company.industry = opp.industry
         if not company.category:
             company.category = "Agency / Consultancy" if company.classification == "Competitor" else "SaaS / Tools"
     
@@ -98,13 +114,15 @@ async def upsert_raw_job(session: AsyncSession, raw_job: RawJob):
     
     # Calculate scores (reuse cache if available)
     relevance_score = raw_job.meta_score if raw_job.meta_score is not None else classifier.score(raw_job.title, raw_job.description)
-    is_ai_search = relevance_score >= classifier.threshold
+    role_tier = classifier.tier(raw_job.title, raw_job.description)
+    is_ai_search = role_tier != "out_of_scope"
     
     # Basic job fields that might update
     update_data = {
         "scraped_at": datetime.utcnow(),
         "relevance_score": relevance_score,
         "is_ai_search": is_ai_search,
+        "role_tier": role_tier,
         "remote_flag": raw_job.remote_flag,
         "employment_type": raw_job.employment_type,
         "seniority": raw_job.seniority,
@@ -122,6 +140,7 @@ async def upsert_raw_job(session: AsyncSession, raw_job: RawJob):
         existing_job.scraped_at = update_data["scraped_at"]
         existing_job.relevance_score = update_data["relevance_score"]
         existing_job.is_ai_search = update_data["is_ai_search"]
+        existing_job.role_tier = update_data["role_tier"]
         
         # Update metadata if present
         existing_job.remote_flag = update_data["remote_flag"]
@@ -150,9 +169,11 @@ async def upsert_raw_job(session: AsyncSession, raw_job: RawJob):
             location=raw_job.location,
             url=raw_job.url,
             description=raw_job.description,
-            posted_at=datetime.utcnow(),
+            posted_at=parse_date_safe(raw_job.posted_at),
+
             relevance_score=relevance_score,
             is_ai_search=is_ai_search,
+            role_tier=role_tier,
             
             # New fields
             remote_flag=update_data["remote_flag"],

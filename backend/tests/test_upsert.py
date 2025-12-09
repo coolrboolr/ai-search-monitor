@@ -6,10 +6,13 @@ from src.ingestion.upsert import upsert_raw_job
 from src.db.models import Job, Company
 
 @pytest.mark.asyncio
-@patch("src.ingestion.upsert.classify_opportunity")
+@patch("src.ingestion.upsert.classifier")
+@patch("src.ingestion.upsert.classify_opportunity_async")
 @patch("src.ingestion.upsert.company_classifier")
-async def test_upsert_update_description(mock_company_clf, mock_opp_clf):
+async def test_upsert_update_description(mock_company_clf, mock_opp_clf, mock_classifier):
     # Setup mocks
+    mock_classifier.score.return_value = 0.9
+    mock_classifier.tier.return_value = "Core AI Search"
     mock_opp_clf.return_value = None # No opportunity -> No OPP_META
     mock_company_clf.classify.return_value = "Client"
     
@@ -52,9 +55,12 @@ async def test_upsert_update_description(mock_company_clf, mock_opp_clf):
     assert session.commit.called
 
 @pytest.mark.asyncio
-@patch("src.ingestion.upsert.classify_opportunity")
+@patch("src.ingestion.upsert.classifier")
+@patch("src.ingestion.upsert.classify_opportunity_async")
 @patch("src.ingestion.upsert.company_classifier")
-async def test_upsert_no_update_if_same(mock_company_clf, mock_opp_clf):
+async def test_upsert_no_update_if_same(mock_company_clf, mock_opp_clf, mock_classifier):
+    mock_classifier.score.return_value = 0.9
+    mock_classifier.tier.return_value = "Core AI Search"
     mock_opp_clf.return_value = None
     mock_company_clf.classify.return_value = "Client"
     # Setup
@@ -94,3 +100,49 @@ async def test_upsert_no_update_if_same(mock_company_clf, mock_opp_clf):
     # if we verify the previous test DID update it.
     
     assert session.commit.called
+
+@pytest.mark.asyncio
+@patch("src.ingestion.upsert.classifier")
+@patch("src.ingestion.upsert.company_classifier")
+@patch("src.ingestion.upsert.classify_opportunity_async", new_callable=AsyncMock)
+async def test_upsert_appends_opp_meta(mock_opp_clf, mock_company_clf, mock_classifier):
+    mock_classifier.score.return_value = 0.9
+    mock_classifier.tier.return_value = "Core AI Search"
+    from src.semantic.opportunity_classifier import OpportunityClassification
+    
+    mock_company_clf.classify.return_value = "Client"
+    mock_opp_clf.return_value = OpportunityClassification(
+        company_role_type="BrandBuyer",
+        buyer_or_seller="Buyer",
+        athena_view="Client",
+        confidence=0.9,
+        notes="Test",
+        industry="B2B SaaS",
+    )
+
+    session = AsyncMock()
+
+    mock_company = Company(id=1, name="Test Co", classification=None)
+    mock_result_company = MagicMock()
+    mock_result_company.scalars.return_value.first.return_value = mock_company
+
+    existing_job = Job(description="Original Description", dedupe_key="fake-key")
+    mock_result_job = MagicMock()
+    mock_result_job.scalars.return_value.first.return_value = existing_job
+
+    session.execute.side_effect = [mock_result_company, mock_result_job]
+
+    raw = RawJob(
+        external_id="123",
+        company="Test Co",
+        title="AI Search Engineer",
+        location="Remote",
+        url="http://example.com/job",
+        source="test",
+        description="Original Description"
+    )
+
+    await upsert_raw_job(session, raw)
+
+    assert "OPP_META:" in existing_job.description
+    assert "athena_view=Client" in existing_job.description

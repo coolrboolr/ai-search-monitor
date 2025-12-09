@@ -22,7 +22,7 @@ async def list_companies(
             func.array_agg(Job.title).label("titles"),
         )
         .join(Job, Job.company_id == Company.id)
-        .where(Job.is_ai_search == True)
+        .where(Job.is_ai_search.is_(True))
         .group_by(Company.id)
     )
 
@@ -59,8 +59,8 @@ async def list_company_jobs(
         select(Job, Company.name)
         .join(Company, Job.company_id == Company.id)
         .where(Job.company_id == id)
-        .where(Job.is_ai_search == True)
-        .order_by(Job.posted_at.desc().nullslast())
+        .where(Job.is_ai_search.is_(True))
+        .order_by(Job.scraped_at.desc())
     )
     result = await session.execute(stmt)
     rows = result.all()

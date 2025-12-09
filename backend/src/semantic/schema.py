@@ -5,6 +5,7 @@ class CompanyOut(BaseModel):
     id: int
     name: str
     website: str | None
+    industry: str | None = None
     careers_url: str | None
     category: str | None
     region: str | None
@@ -25,6 +26,8 @@ class JobOut(BaseModel):
     relevance_score: float | None
     source: str | None = None
     
+    is_ai_search: bool = False
+    role_tier: str | None = None
     # Structured Metadata
     remote_flag: str | None = None
     employment_type: str | None = None

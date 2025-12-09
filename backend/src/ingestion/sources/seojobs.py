@@ -28,68 +28,58 @@ class SEOJobsSource(Source):
     async def fetch(self):
         # Phase 1: List Parsing
         jobs_meta = []
-        
+        seen_links = set()
+        max_pages = 5
+        page_num = 1
+
         async with httpx.AsyncClient(timeout=20, follow_redirects=True) as client:
-            try:
-                resp = await client.get("https://seojobs.com/", headers=random_headers())
-                resp.raise_for_status()
-                
+            while page_num <= max_pages:
+                url = "https://seojobs.com/" if page_num == 1 else f"https://seojobs.com/page/{page_num}/"
+                try:
+                    resp = await client.get(url, headers=random_headers())
+                    resp.raise_for_status()
+                except httpx.HTTPError as e:
+                    logger.error("Error fetching list", extra={"source": self.name, "page": page_num, "error": str(e)})
+                    break
+
                 html = HTMLParser(resp.text)
                 nodes = html.css("div.job-item")
-                logger.info(f"Found job items", extra={"source": self.name, "count": len(nodes)})
-                
+                logger.info("Found job items", extra={"source": self.name, "page": page_num, "count": len(nodes)})
+
+                if not nodes:
+                    break
+
                 for node in nodes:
                     try:
-                        # Title often contains "Title ~ Company ~ Salary ~ Location"
                         title_node = node.css_first("h3 a")
-                        if not title_node:
-                            continue
+                        company_node = node.css_first("div.job-company")
+                        location_node = node.css_first("div.job-place")
                         
-                        full_text = title_node.text(strip=True)
-                        parts = [p.strip() for p in full_text.split("~")]
-                        
-                        # Heuristic parsing
-                        title = parts[0] if len(parts) > 0 else "Unknown Title"
-                        company = parts[1] if len(parts) > 1 else "Unknown Company"
-                        
-                        location_node = node.css_first(".job-place")
-                        location = location_node.text(strip=True) if location_node else None
-                        
-                        if not location and len(parts) > 2:
-                            location = parts[-1] 
+                        raw_title = title_node.text().strip() if title_node else "Unknown"
+                        # Title often contains "~ Company ~ Salary ...", clean it
+                        if "~" in raw_title:
+                            title = raw_title.split("~")[0].strip()
+                        else:
+                            title = raw_title
+                            
+                        raw_link_url = title_node.attributes.get("href", "") if title_node else ""
+                        company = company_node.text().strip() if company_node else "Unknown"
+                        location = location_node.text().strip() if location_node else "Unknown"
 
-                        # Regularize Location
-                        if location:
-                            if "remote" in location.lower():
-                                location = "Remote"
-                            else:
-                                loc_parts = [p.strip() for p in location.split(",")]
-                                seen = set()
-                                deduped = []
-                                for p in loc_parts:
-                                    if p not in seen:
-                                        seen.add(p)
-                                        deduped.append(p)
-                                location = ", ".join(deduped)
-
-                        raw_link_url = title_node.attributes.get("href", "")
                         link_url = urljoin("https://seojobs.com/", raw_link_url)
-                        
-                        if link_url:
+                        if link_url and link_url not in seen_links:
+                            seen_links.add(link_url)
                             jobs_meta.append({
                                 "title": title,
                                 "company": company,
                                 "location": location,
-                                "url": link_url
+                                "url": link_url,
                             })
-                            
                     except Exception as e:
-                        logger.warning("Error parsing node", extra={"source": self.name, "error": str(e)})
+                        logger.warning("Error parsing node", extra={"source": self.name, "page": page_num, "error": str(e)})
                         continue
-                        
-            except httpx.HTTPError as e:
-                logger.error("Error fetching list", extra={"source": self.name, "error": str(e)})
-                return
+
+                page_num += 1
 
         # Phase 2: Concurrent Detail Fetch
         sem = asyncio.Semaphore(settings.INGEST_MAX_DETAIL_CONCURRENCY_SEO)

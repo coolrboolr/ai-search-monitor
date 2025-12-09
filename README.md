@@ -1,69 +1,70 @@
-# AI Search Monitor (v0)
+# AI Search Monitor
 
-AI Search Monitor tracks the hiring pulse of the AI search / SEO ecosystem.
+A dedicated intelligence tool for tracking the "AI Search" and "search engineering" job market. It identifies market trends, potential clients (companies building internal AI search teams), and competitors (agencies selling these services).
 
-It ingests job postings from curated sources, classifies them using semantic embeddings, and surfaces:
+## Features
 
-- Potential clients (SaaS / tools companies hiring AI search / SEO roles)
-- Competitors (agencies / consultancies building in the same space)
-- High-level analytics (company / role counts, last ingestion run)
+- **Multi-Source Ingestion**:
+  - **SEOJobs.com**: Targeted scraping of SEO-specific roles.
+  - **LinkedIn**: Configurable multi-query search (e.g., "AI SEO", "Head of Search") using Playwright.
+- **Intelligent Classification**:
+  - **Role Tiers**: categorizes jobs into `Core AI Search`, `Related SEO`, or `Out of Scope` using semantic embeddings.
+  - **Company Classification**: Distinguishes between **Clients** (Buyers) and **Competitors** (Agencies) using a hybrid heuristic + embedding approach.
+  - **Industry Tagging**: Uses LLM (OpenAI) to tag companies with specific industries (e.g., "B2B SaaS", "Fintech").
+- **Deduplication**: Robust deduplication using content hashing.
+- **Dashboard**: React-based frontend to view and filter companies and jobs.
 
-## Architecture
+## Tech Stack
 
-- **Backend** (FastAPI + SQLAlchemy + Postgres + pgvector)
-  - Async ingestion pipeline (`src/ingestion/pipeline.py`) pulling from SEOJobs.
-  - Semantic relevance + company classification via `sentence-transformers/all-MiniLM-L6-v2`.
-  - REST API:
-    - `GET /api/companies` – companies with AI search roles, with counts & sample titles.
-    - `GET /api/companies/{id}/jobs` – roles for a single company.
-    - `GET /api/jobs` – global feed of AI search roles.
-    - `GET /api/stats` – aggregate counts & last ingestion time.
-- **Frontend** (Next.js App Router + Tailwind)
-  - Dashboard with:
-    - Stats bar: companies, roles, client / competitor split, last run.
-    - Filterable companies table (tabs: Potential Clients vs Competitors).
-    - Expandable rows with live job listings and “Apply” links.
+- **Backend**: Python 3.11+, FastAPI, SQLAlchemy (Async), Pydantic, Playwright, SentenceTransformers.
+- **Frontend**: Next.js 13+, TailwindCSS.
+- **Database**: PostgreSQL.
+- **AI**: OpenAI (GPT-4o-mini) for extraction, `all-MiniLM-L6-v2` for embeddings.
 
-## Local Setup
+## Setup
+
+### Prerequisites
+
+- Python 3.11+
+- Node.js 18+
+- PostgreSQL
+- OpenAI API Key
 
 ### Backend
 
 ```bash
 cd backend
+python -m venv venv
+source venv/bin/activate
+pip install .
+
+playwright install chromium
+
+# Configuration
 cp .env.example .env
-# ensure Postgres is running and matches DATABASE_URL
+# Edit .env with DATABASE_URL and OPENAI_API_KEY (leave blank to disable LLM)
+
+# Migrations
+alembic upgrade head
+
+# Run Server
 uvicorn src.api.main:app --reload
-```
-
-Run ingestion:
-
-```bash
-cd backend
-export PYTHONPATH=$PYTHONPATH:.
-python -m src.ingestion.pipeline
-```
-
-Run tests:
-
-```bash
-cd backend
-pytest
 ```
 
 ### Frontend
 
 ```bash
 cd frontend
-cp .env.example .env.local
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+### Data Ingestion
 
-## Demo Flow
+To run the ingestion pipeline manually:
 
-1. Show stats bar: how many companies, roles, competitors, and last ingestion run.
-2. In “Potential Clients”, filter by category and search for specific role types.
-3. Expand a company row to show live AI search / SEO roles, and click through to the job posting.
-4. Switch to “Competitors” and show how the system automatically classifies agencies vs SaaS.
+```bash
+cd backend
+export PYTHONPATH=$PYTHONPATH:.
+python -m src.ingestion.pipeline
+```

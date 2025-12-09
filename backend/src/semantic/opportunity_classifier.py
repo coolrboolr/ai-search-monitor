@@ -23,6 +23,7 @@ class OpportunityClassification:
     athena_view: str               # "Client", "Competitor", "Neutral"
     confidence: float              # 0–1
     notes: str                     # short rationale
+    industry: str | None = None    # "B2B SaaS", "SEO Agency", etc.
 
 def _get_client() -> Optional[OpenAI]:
     api_key = settings.OPENAI_API_KEY
@@ -50,13 +51,17 @@ def classify_opportunity(
         "Your job is to classify job postings into:\n"
         "  company_role_type: one of [AgencyProvider, BrandBuyer, PlatformSaaS, Recruiter, Other]\n"
         "  buyer_or_seller: one of [Buyer, Seller, Unknown]\n"
-        "  athena_view: one of [Client, Competitor, Neutral]\n\n"
+        "  athena_view: one of [Client, Competitor, Neutral]\n"
+        "  industry: a concise industry label like 'B2B SaaS', 'SEO Agency', "
+        "'Consumer Marketplace', 'Cloud Infrastructure', 'Media & Publishing', etc.\n\n"
         "Guidance:\n"
         "- Agencies, consultancies, and SEO firms that provide services to multiple clients are usually SELLERS -> Competitors.\n"
         "- Brands, SaaS products, or end-companies hiring SEO / AI search people for their own product or marketing are BUYERS -> Clients.\n"
         "- Recruiters and staffing firms are usually Neutral unless they clearly own the SEO delivery.\n"
         "- When ambiguous, lean toward Client (we care more about not missing potential buyers).\n"
-        "- Answer in strict JSON with keys: company_role_type, buyer_or_seller, athena_view, confidence, notes."
+        "- Always justify your labels in 'notes'.\n"
+        "- Answer in strict JSON with exactly these keys: "
+        "company_role_type, buyer_or_seller, athena_view, confidence, notes, industry."
     )
 
     user_msg = f"Analyze this job posting and classify it:\n\n{text}"
@@ -95,12 +100,14 @@ def classify_opportunity(
             else:
                 confidence = 0.5
 
+        industry = data.get("industry")
         return OpportunityClassification(
             company_role_type=str(data.get("company_role_type", "Other")),
             buyer_or_seller=str(data.get("buyer_or_seller", "Unknown")),
             athena_view=str(data.get("athena_view", "Neutral")),
             confidence=confidence,
             notes=str(data.get("notes", "")),
+            industry=str(industry) if industry else None,
         )
     except Exception as e:
         logger.warning(f"[opp_class] OpenAI classification failed: {e}")

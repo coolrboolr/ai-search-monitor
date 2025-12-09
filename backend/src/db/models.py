@@ -17,6 +17,7 @@ class Company(Base):
     category: Mapped[str | None] = mapped_column(String, nullable=True)  # "SaaS", "Agency", etc.
     region: Mapped[str | None] = mapped_column(String, nullable=True)
     classification: Mapped[str | None] = mapped_column(String, nullable=True, index=True) # "Client", "Competitor"
+    industry: Mapped[str | None] = mapped_column(String, nullable=True, index=True) # e.g. "B2B SaaS"
     
     last_seen: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
@@ -46,6 +47,7 @@ class Job(Base):
     # Semantic / AI Layers
     relevance_score: Mapped[float | None] = mapped_column(Float, nullable=True)
     is_ai_search: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
+    role_tier: Mapped[str | None] = mapped_column(String, nullable=True, index=True) # "core_ai_search" vs "related"
     
     # Structured Metadata (v0.1)
     remote_flag: Mapped[str | None] = mapped_column(String, nullable=True)

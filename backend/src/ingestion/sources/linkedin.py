@@ -45,47 +45,53 @@ class LinkedInSource(Source):
                     # Use a catch-all for Phase 1
                     jobs_to_scrape = []
                     try:
-                        await page.goto("https://www.linkedin.com/jobs/search/?keywords=AI%20SEO&location=United%20States", timeout=30000)
-                        
-                        try:
-                            await page.wait_for_selector(".jobs-search__results-list li, .base-card", timeout=10000)
-                        except:
-                            logger.warning("Timeout waiting for job list", extra={"source": self.name})
-                        
-                        # Scroll to load more
-                        for _ in range(3):
-                            await page.mouse.wheel(0, 500)
-                            await page.wait_for_timeout(1000)
+                        seen_urls = set()
 
-                        job_cards = await page.locator("div.base-card").all()
-                        logger.info(f"Found {len(job_cards)} job cards", extra={"source": self.name})
-                        
-                        for card in job_cards:
+                        for query in settings.LINKEDIN_QUERIES:
+                            search_q = query.replace(" ", "%20")
+                            search_url = f"https://www.linkedin.com/jobs/search/?keywords={search_q}&location=United%20States"
+
                             try:
-                                title_el = card.locator(".base-search-card__title")
-                                company_el = card.locator(".base-search-card__subtitle")
-                                location_el = card.locator(".job-search-card__location")
-                                link_el = card.locator(".base-card__full-link")
+                                logger.info(f"Scraping LinkedIn query: {query}")
+                                await page.goto(search_url, timeout=30000)
                                 
-                                title = await title_el.inner_text() if await title_el.count() > 0 else "Unknown Title"
-                                company = await company_el.inner_text() if await company_el.count() > 0 else "Unknown Company"
-                                location = await location_el.inner_text() if await location_el.count() > 0 else "Unknown Location"
+                                # Scroll to load more
+                                for _ in range(3):
+                                    await page.keyboard.press("End")
+                                    await asyncio.sleep(2)
                                 
-                                url = ""
-                                if await link_el.count() > 0:
-                                    url = await link_el.get_attribute("href")
-                                    if url and "?" in url:
-                                        url = url.split("?")[0]
-                                
-                                if url:
-                                    jobs_to_scrape.append({
-                                        "title": title.strip(),
-                                        "company": company.strip(),
-                                        "location": location.strip(),
-                                        "url": url
-                                    })
+                                job_cards = await page.locator("div.base-card").all()
+                                logger.info("Found job cards", extra={"source": self.name, "query": query, "count": len(job_cards)})
+
+                                for card in job_cards:
+                                    try:
+                                        # Extract basics from card
+                                        title_el = card.locator("h3.base-search-card__title")
+                                        company_el = card.locator("h4.base-search-card__subtitle")
+                                        loc_el = card.locator("span.job-search-card__location")
+                                        link_el = card.locator("a.base-card__full-link")
+                                        
+                                        title = await title_el.inner_text()
+                                        company = await company_el.inner_text()
+                                        location = await loc_el.inner_text()
+                                        url = await link_el.get_attribute("href")
+                                        
+                                        # Clean URL
+                                        if url:
+                                            url = url.split("?")[0]
+                                        
+                                        if url and url not in seen_urls:
+                                            seen_urls.add(url)
+                                            jobs_to_scrape.append({
+                                                "title": title.strip(),
+                                                "company": company.strip(),
+                                                "location": location.strip(),
+                                                "url": url,
+                                            })
+                                    except Exception:
+                                        continue
                             except Exception as e:
-                                logger.warning("Error parsing card", extra={"source": self.name, "error": str(e)})
+                                logger.warning("LinkedIn query failed", extra={"source": self.name, "query": query, "error": str(e)})
                                 continue
 
                     except Exception as e:

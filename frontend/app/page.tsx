@@ -3,7 +3,9 @@ import StatsBar, { Stats } from "@/components/StatsBar";
 
 // Function to fetch data. In production this would handle errors/timeouts better.
 // Assuming backend runs on localhost:8000 by default, or use env var.
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
+import { API_BASE } from "../lib/api";
+
+const API_URL = API_BASE;
 
 // Function to fetch data. In production this would handle errors/timeouts better.
 // Assuming backend runs on localhost:8000

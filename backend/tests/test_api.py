@@ -30,6 +30,7 @@ async def test_list_companies(app_client, mock_session):
 
         row = data[0]
         assert row["name"] == "Test Company"
+        assert "industry" in row
         assert row["ai_search_roles"] == 3
         assert isinstance(row["sample_titles"], str)
         # Ensure at least one of the mocked titles is present
@@ -171,3 +172,34 @@ async def test_stats(app_client, mock_session):
         assert data["total_competitors"] == 4
         assert data["total_clients"] == 6
         assert data["last_ingestion_at"] == "2025-01-01T00:00:00"
+
+
+
+@pytest.mark.asyncio
+async def test_list_company_jobs_route(app_client, mock_session):
+    company = Company(id=1, name="Test Company")
+    job = Job(
+        id=1,
+        company_id=1,
+        title="AI Search Engineer",
+        external_id="ext-1",
+        is_ai_search=True,
+        scraped_at=None,
+        posted_at=None,
+        description="Desc"
+    )
+    job.company = company
+    
+    # Mock result for the query
+    # The query selects (Job, Company.name)
+    mock_result = MagicMock()
+    mock_result.all.return_value = [(job, "Test Company")]
+    mock_session.execute.return_value = mock_result
+    
+    async with app_client as client:
+        resp = await client.get("/api/companies/1/jobs")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert len(data) == 1
+        assert data[0]["title"] == "AI Search Engineer"
+        assert data[0]["company_name"] == "Test Company"

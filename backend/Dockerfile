@@ -12,20 +12,23 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy configuration files first for better caching
+# Copy configuration files first for better caching
 COPY pyproject.toml .
+
+# Copy source code before installing to allow editable/wheel build
+COPY src/ ./src/
+
 # If you had a requirements.txt, you'd copy it here. 
 # Since we are using pyproject.toml, we can install directly or generate requirements.
 # We'll install the package in editable mode or just dependencies.
 # Installing dependencies from pyproject.toml:
 RUN pip install --no-cache-dir .
 
-# Copy the rest of the application code
-COPY src/ ./src/
-
 # Install Playwright and browser deps
 # This is heavy but needed for scraping
-RUN pip install --no-cache-dir playwright && \
-    playwright install --with-deps chromium
+# Playwright is in pyproject.toml, so we just install browsers
+RUN playwright install chromium
+
 
 # Prefetch embedding model at build-time so it’s baked into the image
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"

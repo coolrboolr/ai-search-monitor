@@ -5,7 +5,7 @@ import { useState, useMemo, useEffect } from "react";
 
 import Link from "next/link";
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000").replace(/\/$/, "");
+import { API_BASE } from "../lib/api";
 
 interface Company {
     id: number;
@@ -15,6 +15,7 @@ interface Company {
     category: string | null;
     region: string | null;
     classification: string | null;
+    industry: string | null;
     last_seen: string | null;
     ai_search_roles: number;
     sample_titles: string | null;
@@ -124,7 +125,7 @@ export default function CompanyTable({ companies }: { companies: Company[] }) {
                             <th className="px-6 py-3">Company</th>
                             <th className="px-6 py-3">Roles</th>
                             <th className="px-6 py-3">Sample Titles</th>
-                            <th className="px-6 py-3">Category</th>
+                            <th className="px-6 py-3">Industry</th>
                             {activeTab === "Competitor" && <th className="px-6 py-3">Intel</th>}
                             <th className="px-6 py-3">Last Seen</th>
                         </tr>
@@ -167,7 +168,7 @@ export default function CompanyTable({ companies }: { companies: Company[] }) {
                                         {c.sample_titles || "-"}
                                     </td>
                                     <td className="px-6 py-4 text-gray-500">
-                                        {c.category || <span className="text-gray-400 italic">Uncategorized</span>}
+                                        {c.industry || <span className="text-gray-400 italic">Unlabeled</span>}
                                     </td>
                                     {activeTab === "Competitor" && (
                                         <td className="px-6 py-4 text-gray-500">
@@ -218,8 +219,6 @@ function JobsList({ companyId }: { companyId: number }) {
 
     useEffect(() => {
         let active = true;
-        setLoading(true);
-        setError(null);
 
         fetch(`${API_BASE}/api/companies/${companyId}/jobs`)
             .then(res => {

@@ -14,9 +14,9 @@ type JobDetail = {
     company_category: string | null;
 };
 
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000")
-    .replace("localhost", "127.0.0.1")
-    .replace(/\/$/, "");
+import { API_BASE } from "../../../lib/api";
+
+const API_URL = API_BASE;
 
 async function getJob(id: string): Promise<JobDetail | null> {
     try {

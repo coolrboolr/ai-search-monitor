@@ -329,3 +329,269 @@ OSError: [Errno 9] Bad file descriptor
 
 Current thread 0x00000001f386e080 (most recent call first):
   <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/schema.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_upsert.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_upsert.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/db/models.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/db/migrations/versions/6aaf5ea2e8bd_add_company_industry.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/opportunity_classifier.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/opportunity_classifier.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/opportunity_classifier.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/upsert.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/schema.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/schema.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/schema.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/classifier.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/db/models.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/db/migrations/versions/eac39ace7109_add_job_role_tier.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/upsert.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/upsert.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/upsert.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/classifier_company.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/classifier_company.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/core/config.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/linkedin.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/linkedin.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/seojobs.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/linkedin.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/seojobs.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/seojobs.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_semantic_classifiers.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_semantic_classifiers.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/schema.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/linkedin.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/schema.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'tests/test_api.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/classifier_company.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/classifier.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/semantic/classifier.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/linkedin.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>
+WARNING:  WatchFiles detected changes in 'src/ingestion/sources/linkedin.py'. Reloading...
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f386e080 (most recent call first):
+  <no Python frame>

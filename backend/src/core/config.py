@@ -15,6 +15,16 @@ class Settings(BaseSettings):
     INGEST_MAX_DETAIL_CONCURRENCY_LINKEDIN: int = 3
     INGEST_MAX_UPSERT_CONCURRENCY: int = 8
     OPENAI_OPP_MAX_CONCURRENCY: int = 3
+
+    LINKEDIN_QUERIES: list[str] = [
+        "AI SEO",
+        "Search Engineer",
+        "Information Retrieval Engineer",
+        "Ranking Engineer",
+        "Relevance Engineer",
+        "Head of Search",
+        "Answer Engine Optimization Lead",
+    ]
     OPENAI_OPP_MAX_RETRIES: int = 4
     
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")

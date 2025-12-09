@@ -35,7 +35,20 @@ CLIENT_KEYWORDS = [
     "labs", "ai", "systems", "solutions"
 ]
 
-COMPETITOR_MARGIN = 0.08
+COMPETITOR_MARGIN = 0.05
+# Heuristics
+# "Client" hints that strongly suggest it's NOT an agency (e.g. products)
+NEG_CLIENT_HINTS = [
+    "labs", "systems", "cloud", "platform", "app",
+    "software", "technologies", "technology", 
+    # Removed "inc", "solutions", "group", "corp" as they are common in agencies too
+]
+
+COMP_HARD_HINTS = [
+    "agency", "agencies", "marketing", "digital marketing", "seo agency",
+    "consulting", "consultancy", "media group", "performance marketing",
+    "creative agency", "advertising agency",
+]
 
 class CompanyClassifier:
     def __init__(self):
@@ -65,6 +78,19 @@ class CompanyClassifier:
             return "Client"
             
         # 2. Semantic Scores
+        text_lower = text.lower()
+        
+        has_comp = any(h in text_lower for h in COMP_HARD_HINTS)
+        has_neg_client = any(h in text_lower for h in NEG_CLIENT_HINTS)
+
+        # 1) Hard competitor hints win unless clearly product-ish
+        if has_comp and not has_neg_client:
+            return "Competitor"
+
+        # 2) Clear product-ish without agency hints -> Client
+        if has_neg_client and not has_comp:
+            return "Client"
+
         v = embedder.encode([text])[0]
         
         score_competitor = float(np.dot(v, self._competitor_centroid))
