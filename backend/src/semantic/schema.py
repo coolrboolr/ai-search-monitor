@@ -74,3 +74,4 @@ class StatsOut(BaseModel):
     last_ingestion_at: datetime | None
 
     model_config = ConfigDict(from_attributes=True)
+
