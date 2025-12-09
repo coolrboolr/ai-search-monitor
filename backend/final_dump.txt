@@ -1,0 +1,72 @@
+
+=== COMPANIES ===
+ID: 13 | Name: Taxwell | Classification: Competitor | Category: Agency / Consultancy
+ID: 32 | Name: TechGiant | Classification: Client | Category: SaaS / Tools
+ID: 14 | Name: Elevated Third | Classification: Competitor | Category: Agency / Consultancy
+ID: 33 | Name: StartupX | Classification: Competitor | Category: Agency / Consultancy
+ID: 36 | Name: OpenAI | Classification: Client | Category: SaaS / Tools
+ID: 39 | Name: DataCorp | Classification: Competitor | Category: Agency / Consultancy
+ID: 15 | Name: 12100 Collective | Classification: Competitor | Category: Agency / Consultancy
+ID: 16 | Name: Public Storage | Classification: Client | Category: SaaS / Tools
+ID: 8 | Name: dofollow.com | Classification: Competitor | Category: Agency / Consultancy
+ID: 41 | Name: WebStudio | Classification: Client | Category: SaaS / Tools
+ID: 43 | Name: SalesForce | Classification: Competitor | Category: Agency / Consultancy
+ID: 17 | Name: Advision Development Jobs | Classification: Competitor | Category: Agency / Consultancy
+ID: 44 | Name: PeopleOps | Classification: Competitor | Category: Agency / Consultancy
+ID: 37 | Name: AgencyOne | Classification: Competitor | Category: Agency / Consultancy
+ID: 18 | Name: Rocket Clicks | Classification: Competitor | Category: Agency / Consultancy
+ID: 19 | Name: JBA International | Classification: Competitor | Category: Agency / Consultancy
+ID: 20 | Name: Black & White Zebra | Classification: Competitor | Category: Agency / Consultancy
+ID: 35 | Name: MediaCo | Classification: Competitor | Category: Agency / Consultancy
+ID: 22 | Name: Geear | Classification: Competitor | Category: Agency / Consultancy
+ID: 23 | Name: Addison Group | Classification: Competitor | Category: Agency / Consultancy
+ID: 31 | Name: FutureCorp AI | Classification: Client | Category: SaaS / Tools
+ID: 34 | Name: Google | Classification: Competitor | Category: Agency / Consultancy
+ID: 38 | Name: Bing | Classification: Client | Category: SaaS / Tools
+ID: 24 | Name: NoGood | Classification: Competitor | Category: Agency / Consultancy
+ID: 25 | Name: Consultwebs | Classification: Competitor | Category: Agency / Consultancy
+ID: 40 | Name: PromptLy | Classification: Competitor | Category: Agency / Consultancy
+ID: 27 | Name: Top Position | Classification: Competitor | Category: Agency / Consultancy
+ID: 42 | Name: CoffeeShop | Classification: Competitor | Category: Agency / Consultancy
+ID: 28 | Name: Mannix Marketing | Classification: Competitor | Category: Agency / Consultancy
+ID: 29 | Name: Skrapp.io | Classification: Client | Category: SaaS / Tools
+ID: 30 | Name: LinkGraph | Classification: Competitor | Category: Agency / Consultancy
+ID: 12 | Name: MarketDing.ai | Classification: Client | Category: SaaS / Tools
+ID: 21 | Name: Forbes Advisor | Classification: Client | Category: SaaS / Tools
+ID: 26 | Name: Parikh Financial | Classification: Client | Category: SaaS / Tools
+ID: 7 | Name: Stella Rising | Classification: Competitor | Category: Agency / Consultancy
+ID: 9 | Name: Array Digital | Classification: Competitor | Category: Agency / Consultancy
+ID: 6 | Name: TrendyMinds | Classification: Competitor | Category: Agency / Consultancy
+ID: 10 | Name: Private | Classification: Client | Category: SaaS / Tools
+ID: 11 | Name: New Media Advisors | Classification: Competitor | Category: Agency / Consultancy
+
+=== AI SEARCH JOBS ===
+ID: 7 | Title: Senior SEO Strategist | CompanyID: 7
+ID: 9 | Title: SEO Specialist | CompanyID: 9
+ID: 6 | Title: SEO/AEO Director | CompanyID: 6
+ID: 10 | Title: Technical SEO / AI Search Strategist | CompanyID: 10
+ID: 11 | Title: Senior SEO Specialist | CompanyID: 11
+ID: 17 | Title: SEO Innovation Content Specialist (Sports & iGaming Focus) | CompanyID: 17
+ID: 31 | Title: AI Search Engineer | CompanyID: 31
+ID: 32 | Title: SEO Specialist for AI | CompanyID: 32
+ID: 33 | Title: Head of Search | CompanyID: 33
+ID: 34 | Title: Search Quality Evaluator | CompanyID: 34
+ID: 35 | Title: AI Content Strategist | CompanyID: 35
+ID: 13 | Title: SEO Content Writer | CompanyID: 13
+ID: 14 | Title: SEO Specialist – Part-Time/Contract | CompanyID: 14
+ID: 15 | Title: Head of SEO | CompanyID: 15
+ID: 16 | Title: Analyst, SEO & AI Search | CompanyID: 16
+ID: 18 | Title: SEO Manager | CompanyID: 18
+ID: 19 | Title: SEO/PPC Marketing Manager | CompanyID: 19
+ID: 21 | Title: Lead SEO Editor, Pet Health | CompanyID: 21
+ID: 24 | Title: Growth Marketing Manager (SEO) | CompanyID: 24
+ID: 25 | Title: (Three) SEO Specialists | CompanyID: 25
+ID: 26 | Title: AI-Powered SEO Strategist | CompanyID: 26
+ID: 27 | Title: SEO Specialist | CompanyID: 27
+ID: 28 | Title: SEO Contractor (Project-Based) | CompanyID: 28
+ID: 29 | Title: SEO & Content Specialist Assistant | CompanyID: 29
+ID: 30 | Title: SEO Customer Success Manager – Enterprise Accounts | CompanyID: 30
+ID: 37 | Title: Technical SEO Manager | CompanyID: 37
+ID: 12 | Title: SEO Manager | CompanyID: 12
+ID: 39 | Title: Data Analyst | CompanyID: 39
+ID: 40 | Title: Prompt Engineer | CompanyID: 40
